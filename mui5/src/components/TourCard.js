@@ -4,62 +4,91 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Rating from "@mui/material/Rating";
 import { AccessTime } from "@mui/icons-material";
+import { createTheme, ThemeProvider } from "@mui/material";
 
-const TourCard = () => {
+const theme = createTheme({
+  components: {
+    MuiTypography: {
+      variants: [
+        {
+          props: {
+            variant: "body2",
+          },
+          style: {
+            fontSize: 11,
+          },
+        },
+
+        {
+          props: {
+            variant: "body3",
+          },
+          style: {
+            fontSize: 9,
+          },
+        },
+      ],
+    },
+  },
+});
+
+const TourCard = ({tour}) => {
   return (
     <Grid item xs={3}>
-      <Paper elevation={3}>
-        <img
-          src="https://www.transportal.com.br/noticias/wp-content/uploads/2019/06/Cataratas-do-Igua%C3%A7u-720x250.jpg"
-          alt=""
-          className="img"
-        />
-        <Box paddingX={1}>
-          <Typography variant="subtitle1" component="h2">
-            Immerse into the Falls
-          </Typography>
+      <ThemeProvider theme={theme}>
+        <Paper elevation={3}>
+          <img
+            src={tour.image}
+            alt=""
+            className="img"
+          />
+          <Box paddingX={1}>
+            <Typography variant="subtitle1" component="h2">
+              {tour.name}
+            </Typography>
 
-          <Box 
+            <Box 
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <AccessTime sx={{ width: 12.5 }} />
+              <Typography variant="body2" component="p" marginLeft={0.5}>
+                {tour.duration}
+              </Typography>
+            </Box>
+
+            <Box 
             sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <AccessTime sx={{ width: 12.5 }} />
-            <Typography variant="body2" component="p" marginLeft={0.5}>
-              5 hours
-            </Typography>
-          </Box>
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Rating 
+                name="read-only"
+                value={4.5}
+                precision={0.5} 
+                readOnly 
+                size="small"               
+              />
+              <Typography variant="body2" component="p" marginLeft={0.5}>
+                {tour.rating}
+              </Typography>
+              <Typography variant="body2" component="p" marginLeft={1.5}>
+                {tour.numberOfReviews}
+              </Typography>
+            </Box>
 
-          <Box 
-          sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <Rating 
-              name="read-only"
-              value={4.5}
-              precision={0.5} 
-              readOnly 
-              size="small"               
-            />
-            <Typography variant="body2" component="p" marginLeft={0.5}>
-              4.5
-            </Typography>
-            <Typography variant="body2" component="p" marginLeft={1.5}>
-              (655 Reviews)
-            </Typography>
-          </Box>
+            <Box>
+              <Typography variant="h6" component="h3" marginTop={0}>
+                {tour.price}
+              </Typography>
+            </Box>
 
-          <Box>
-            <Typography variant="h6" component="h3" marginTop={0}>
-              From C $147
-            </Typography>
-          </Box>
-
-        </Box>                  
-      </Paper>
+          </Box>                  
+        </Paper>
+      </ThemeProvider>
     </Grid>
   );
 };
