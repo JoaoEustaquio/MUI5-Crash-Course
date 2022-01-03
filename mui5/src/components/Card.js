@@ -1,10 +1,14 @@
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Rating from "@mui/material/Rating";
 import { AccessTime } from "@mui/icons-material";
-import { createTheme, ThemeProvider } from "@mui/material";
+import {
+  createTheme,
+  Grid,
+  Paper,
+  Rating,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
+import { Box } from "@mui/system";
+import React from "react";
 
 const theme = createTheme({
   components: {
@@ -18,7 +22,6 @@ const theme = createTheme({
             fontSize: 11,
           },
         },
-
         {
           props: {
             variant: "body3",
@@ -32,65 +35,64 @@ const theme = createTheme({
   },
 });
 
-const TourCard = ({tour}) => {
+export default function Card({ tour }) {
   return (
-    <Grid item xs={3}>
+    <Grid item xs={4} md={3}>
       <ThemeProvider theme={theme}>
-        <Paper elevation={3}>
-          <img
-            src={tour.image}
-            alt=""
-            className="img"
-          />
-          <Box paddingX={1}>
+        <Paper elevation={3} className="paper">
+          <img src={tour.image} alt="" className="img" />
+          <Box
+            sx={{
+              paddingX: 1,
+            }}
+          >
             <Typography variant="subtitle1" component="h2">
               {tour.name}
             </Typography>
-
-            <Box 
+            <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
               }}
             >
-              <AccessTime sx={{ width: 12.5 }} />
+              <AccessTime style={{ width: 12.5 }} />
               <Typography variant="body2" component="p" marginLeft={0.5}>
-                {tour.duration}
+                {tour.duration} hours
               </Typography>
             </Box>
-
-            <Box 
-            sx={{
+            <Box
+              sx={{
                 display: "flex",
                 alignItems: "center",
               }}
+              marginTop={3}
             >
-              <Rating 
-                name="read-only"
-                value={4.5}
-                precision={0.5} 
-                readOnly 
-                size="small"               
+              <Rating
+                name="size-small"
+                size="small"
+                defaultValue={tour.rating}
+                precision={0.25}
+                readOnly
               />
               <Typography variant="body2" component="p" marginLeft={0.5}>
                 {tour.rating}
               </Typography>
-              <Typography variant="body2" component="p" marginLeft={1.5}>
-                {tour.numberOfReviews}
+              <Typography variant="body3" component="p" marginLeft={1.5}>
+                ({tour.numberOfReviews} reviews)
               </Typography>
             </Box>
-
-            <Box>
-              <Typography variant="h6" component="h3" marginTop={0}>
-                {tour.price}
+            <Box
+              sx={{
+                display: "flex",
+              }}
+            >
+              <Typography variant="h6" component="h2" marginTop={0}>
+                From C ${tour.price}
               </Typography>
             </Box>
-
-          </Box>                  
+          </Box>
         </Paper>
       </ThemeProvider>
     </Grid>
   );
-};
-
-export default TourCard;
+}
